@@ -1,6 +1,10 @@
+#  house-hacker
+
+config.yml
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
+*.py[cod]1
 *$py.class
 
 # C extensions

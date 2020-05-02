@@ -1,0 +1,38 @@
+# This is just an example config
+# Please use your own value and save in 'config.yml'
+
+timing:
+  interval: 1 # hours               # search every hour
+  blackout_start: 22                # do not deliver SMS after 10pm local time
+  blackout_end: 8                   # do not deliver SMS before 8am local time
+  timezone: America/New_York        # local timezone
+
+redis:
+  host: localhost
+  port: 6379
+  key_names:
+    seen: previously-seen-ids
+
+craigslist:
+  site: newyork                     # subdomain of craigslist in your area
+  area: brk                         # area within your subdomain
+  search:
+    sort_by: newest                 # how you want your results to be ordered
+    limit: 100                      # how many results you want per request
+  filters:                          # filters; use the #show_filters() method to see options
+    posted_today: True
+    private_room: False
+    min_price: 2350
+    max_price: 4800
+    min_bedrooms: 2
+    max_bedrooms: 3
+    search_distance: 1.5 # miles
+    zip_code: 10001
+
+twilio:
+  sid: YOUR SID GOES HERE
+  token: YOUR TOKEN GOES HERE
+  from_number: YOUR FROM NUMBER GOES HERE
+  contacts:                         # The name -> number of those you'd like this to hit
+    jon: '+12121111111'
+    doe: '+12129998888'
