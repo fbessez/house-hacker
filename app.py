@@ -5,7 +5,7 @@ from redis        import StrictRedis
 from craigslist   import CraigslistHousing
 from twilio.rest  import Client as TwilioClient
 from attrdict     import AttrDict
-from datetime     import datetime
+from datetime     import datetime, timedelta
 
 config = open('config.yml', 'r')
 config = yaml_load(config, Loader=FullLoader)
@@ -64,9 +64,12 @@ def sendSms(to_number, apartment_id, message_body):
     except:
         print("SMS delivery failed to %s for ID: %s" % (to_number, apartment_id))
 
-def getCurrentHour():
+def getCurrentTime():
     tz = timezone(config.timing.timezone)
-    return datetime.now(tz).hour
+    return datetime.now(tz)
+
+def getCurrentHour():
+    return getCurrentTime().hour
 
 def isBlackoutHours():
     blackout_start, blackout_end = config.timing.blackout_start, config.timing.blackout_end
@@ -82,6 +85,12 @@ def hoursToSleep():
         return HOURS_IN_DAY - currentHour + config.timing.blackout_end
     else:
         return config.timing.blackout_end - currentHour
+
+def waitIntervalTime():
+    sleep_time_in_seconds = config.timing.interval * 60 * 60
+    sleeping_til = getCurrentTime() + timedelta(0, sleep_time_in_seconds)
+    print("sleeping til %s..." % sleeping_til.strftime("%H:%M:%S"))
+    sleep(sleep_time_in_seconds)
 
 def main():
     while True:
@@ -101,7 +110,6 @@ def main():
                 number = config.twilio.contacts[contact]
                 sendSms(number, apartment_id, message_body)
 
-        print("sleeping for %s hour..." % config.timing.interval)
-        sleep(config.timing.interval * 60 * 60) # seconds
+        waitIntervalTime()
 
 main()
