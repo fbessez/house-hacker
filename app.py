@@ -7,7 +7,7 @@ from twilio.rest  import Client as TwilioClient
 from attrdict     import AttrDict
 from datetime     import datetime, timedelta
 
-config = open('./config.yml', 'r')
+config = open("config.yml", "r")
 config = yaml_load(config, Loader=FullLoader)
 config = AttrDict(config)
 
