@@ -7,7 +7,7 @@ from twilio.rest  import Client as TwilioClient
 from attrdict     import AttrDict
 from datetime     import datetime, timedelta
 
-config = open('config.yml', 'r')
+config = open('./config.yml', 'r')
 config = yaml_load(config, Loader=FullLoader)
 config = AttrDict(config)
 
@@ -75,13 +75,13 @@ def isBlackoutHours():
     blackout_start, blackout_end = config.timing.blackout_start, config.timing.blackout_end
     currentHour = getCurrentHour()
 
-    return currentHour > blackout_start or currentHour < blackout_end
+    return currentHour >= blackout_start or currentHour < blackout_end
 
 def hoursToSleep():
     HOURS_IN_DAY = 24
 
     currentHour = getCurrentHour()
-    if currentHour > config.timing.blackout_start:
+    if currentHour >= config.timing.blackout_start:
         return HOURS_IN_DAY - currentHour + config.timing.blackout_end
     else:
         return config.timing.blackout_end - currentHour
