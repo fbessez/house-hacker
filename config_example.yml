@@ -28,6 +28,10 @@ craigslist:
     max_bedrooms: 3
     search_distance: 1.5 # miles
     zip_code: 10001
+    laundry:
+      - w/d in unit
+      - w/d hookups
+      - laundry in bldg
 
 twilio:
   sid: YOUR SID GOES HERE

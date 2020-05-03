@@ -1,7 +1,8 @@
+import os
 from yaml         import load as yaml_load, FullLoader
 from time         import sleep
 from pytz         import timezone
-from redis        import StrictRedis
+from redis        import Redis
 from craigslist   import CraigslistHousing
 from twilio.rest  import Client as TwilioClient
 from attrdict     import AttrDict
@@ -11,9 +12,9 @@ config = open("config.yml", "r")
 config = yaml_load(config, Loader=FullLoader)
 config = AttrDict(config)
 
-redisClient  = StrictRedis(host=config.redis.host,
-                           port=config.redis.port,
-                           db=0)
+redisClient  = Redis(host=os.environ.get('REDIS_HOST', config.redis.host),
+                     port=os.environ.get('REDIS_PORT', config.redis.port),
+                     db=0)
 clistClient  = CraigslistHousing(site=config.craigslist.site,
                                  area=config.craigslist.area,
                                  filters=config.craigslist.filters)
@@ -36,11 +37,11 @@ def parseApartment(apartment):
         return [None, None]
 
     post_id   = apartment['id']
-    post_url  = apartment['url']
     post_name = apartment['name']
+    post_cost = apartment['price']
     post_loc  = apartment['where']
     post_time = apartment['datetime']
-    post_cost = apartment['price']
+    post_url  = apartment['url']
 
     message  = '-'
     message += '\n\n' + post_name + '\n\n'
