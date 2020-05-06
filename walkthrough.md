@@ -1,6 +1,6 @@
 # Creating a Real Estate Agent
 
-## Background
+## Quick Background
 
 I moved back home to NYC and needed to find a new spot. If you don't know, the New York housing market moves very quickly. A good apartment can be on and off the market in the blink of an eye. Once you find an apartment that _is_ still available, it's basically a race to the down payment.
 
